@@ -2,17 +2,17 @@ domains
 i = integer
 list = i*
 predicates
-nondeterm change(i,i,list,list)
+nondeterm replace(i,i,list,list)
 nondeterm run
 nondeterm do(char)
 clauses
-	change(P,X,[H|T],[H|T1]):-
+	replace(P,X,[H|T],[H|T1]):-
 		P<>1,
 		NP=P-1,
 		change(NP,X,T,T1).
-	change(1,X,[_|T],[X|T1]):-
+	replace(1,X,[_|T],[X|T1]):-
 		change(0,X,T,T1).
-	change(_,_,[],[]).
+	replace(_,_,[],[]).
 	run:-
 		write("\n******Enter******\n"),
 		write(" 1 to start\n"),
@@ -31,7 +31,7 @@ clauses
 		readint(Position),
 		write("Enter your number>>"),
 		readint(X),
-		change(Position,X,Source,Result),
+		replace(Position,X,Source,Result),
 		write(Result).
 	do('0'):-
 		write("That's all."), exit.
