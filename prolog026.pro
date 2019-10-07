@@ -1,28 +1,18 @@
 domains
-	i = integer
-	list = i*
-	listc = char*
+i = integer
+list = i*
 predicates
-	nondeterm convert_position(i, i, list, list, list)
-	nondeterm reverse(list, list)
-	nondeterm reverse1(list, list, list)
-	nondeterm run()
-	nondeterm do(char)
+nondeterm change(i,i,list,list)
+nondeterm run
+nondeterm do(char)
 clauses
-	convert_position(Position, X, [H|T], L, Result):-
-		Position <> 1,
-		NPosition = Position - 1,
-		convert_position(NPosition, X, T, [H|L], Result).
-	convert_position(Position, X, [H|T], L, Result):-
-		NPosition = Position - 1,
-		convert_position(NPosition, X, T, [X|L], Result).
-	convert_position(_, _, [], L, Result):-
-		reverse(L, Result).
-	reverse(L, Lr):-
-		reverse1(L, [], Lr).
-	reverse1([], L, L).
-	reverse1([H|T], A, Lr):-
-		reverse1(T, [H|A], Lr).
+	change(P,X,[H|T],[H|T1]):-
+		P<>1,
+		NP=P-1,
+		change(NP,X,T,T1).
+	change(1,X,[_|T],[X|T1]):-
+		change(0,X,T,T1).
+	change(_,_,[],[]).
 	run:-
 		write("\n******Enter******\n"),
 		write(" 1 to start\n"),
@@ -41,7 +31,7 @@ clauses
 		readint(Position),
 		write("Enter your number>>"),
 		readint(X),
-		convert_position(Position, X, Source, [], Result),
+		change(Position,X,Source,Result),
 		write(Result).
 	do('0'):-
 		write("That's all."), exit.
