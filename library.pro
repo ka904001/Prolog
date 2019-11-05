@@ -2,6 +2,8 @@ domains
 	i = integer
 	list = i*
 	listc = char*
+	bi_t = tree(bi_t, root, bi_t); nil
+	root = string
 predicates
 	nondeterm member(i, list)
 	nondeterm length(list, i)
@@ -26,6 +28,9 @@ predicates
 	nondeterm cut_back(list, i, i, list)
 	nondeterm multimember(list, list)
 	nondeterm makenlist(i, i, list)
+	nondeterm map_tree(bi_t)
+	nondeterm map(bi_t, i)
+	nondeterm tab(i)
 clauses
 /*member*/
 	member(X, [X|_]).
@@ -159,6 +164,24 @@ clauses
 		NS = S-1,
 		makenlist(NS, C, T).
 	makenlist(1, C, [C]):-!.
+/*tabs*/
+	tab(0).
+	tab(D):-
+		write('\t'),
+		ND=D-1,
+		tab(ND).
+/*tree to the right*/
+	map_tree(T):-map(T, 0).
+	map(nil, _).
+	map(tree(L, E, R), D):-
+		ND=D+1,
+		map(R, ND),
+		tab(D),
+		write(E),
+		nl,
+		map(L, ND).
+/*tree example*/
+	map_tree(tree(tree(tree(tree(nil, "aa", nil), "ab", tree(tree(nil, "bb",nil), "bc", tree(nil, "cc", nil))), "cd", tree(nil, "dd", nil)), "de", tree(tree(nil, "ee", nil), "ef", tree(nil, "ff", nil)))).
 
 /*****************************************************************/
 /******************Done*******************************************/
