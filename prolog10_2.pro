@@ -3,19 +3,17 @@ domains
 	i = integer
 	listc = char*
 predicates
-	nondeterm delete_1(list, list, list)
-	nondeterm push_back(i, list, list)
+	nondeterm delete_1(list, list)		/* Удаляет элементы списка на нечетных позициях */
 	nondeterm run()
 	nondeterm do(char)
 clauses
-	delete_1([H1, H2|T], L, Result):-
-		push_back(H2, L, L2),
-		delete_1(T, L2, Result).
-	delete_1([], L, L).
-	delete_1([_], L, L).
-	push_back(X, [H|T], [H|T1]):-
-		push_back(X, T, T1).
-	push_back(X, [], [X]).
+	delete_1([_, H|T1], [H|T2]):-
+		/*Если удалось выделить два элемента списка, первый - нечетный и не учитывается */
+		delete_1(T1, T2).
+	delete_1([], []).
+		/* Пустой список не несет больше элементов */
+	delete_1([_], []).
+		/* Если остался один элемент, то он нечетный и не учитываеся */
 	run:-
 		write("\n******Enter******\n"),
 		write(" 1 to start\n"),
@@ -30,7 +28,7 @@ clauses
 	do('1'):-
 		write("Enter your list>>"),
 		readterm(list, List),
-		delete_1(List, [], Result),
+		delete_1(List, Result),
 		write("The result is:\n"),
 		write(Result).
 	do('0'):-
