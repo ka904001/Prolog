@@ -29,7 +29,7 @@ clauses
 		readint(A),
 		write("Change for>>"),
 		readint(X),
-		replace_all(A, X, List, Result),
+		replace(A, X, List, Result),
 		write("The result is:\n"),
 		write(Result).
 	do('0'):-
